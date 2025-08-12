@@ -22,8 +22,18 @@ jobs:
         python -m pip install --upgrade pip
         pip install psutil selenium requests
     
+    - name: Install system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libdbus-glib-1-2 libgtk-3-0 xvfb
+    
     - name: Setup Firefox
       uses: browser-actions/setup-firefox@latest
+    
+    - name: Start Xvfb
+      run: |
+        Xvfb :99 -ac -screen 0 1920x1080x16 &
+        echo "DISPLAY=:99" >> $GITHUB_ENV
     
     - name: Download script files securely
       env:
